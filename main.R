@@ -80,3 +80,20 @@ cta_holiday_weather$wind_speed[is.na(cta_holiday_weather$wind_speed)] <-
 #cta <- cta[cta$date >= "2015-05-26" & cta$date <= "2021-12-31",]
 #show the data after 5/26/2015 in cta
 #cta <- cta[cta$date >= "2015-05-26",]
+#use ggplot to make chart based on holiday information
+library(ggplot2)
+ggplot(cta_holiday_weather, aes(x = holiday, y = rides)) + geom_boxplot() + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+#use ggplot to make chart based on total_rides and how much rain fell
+ggplot(cta_holiday_weather, aes(x = rain, y = total_rides)) + geom_point() + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+#make a line chart that compares total_rides before and after 2019
+ggplot(cta_holiday_weather, aes(x = date, y = total_rides)) + geom_line() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + facet_wrap(~year(date))
+#create year column using information from date
+cta_holiday_weather$year <- year(cta_holiday_weather$date)
+#make a graph that shows when the best time to use the CTA is
+ggplot(cta_holiday_weather, aes(x = date, y = total_rides)) + geom_line() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + facet_wrap(~year(date)) + scale_x_date(date_breaks = "1 month", date_labels = "%b %d")
+#add color to the graph
+ggplot(cta_holiday_weather, aes(x = date, y = total_rides, color = year)) + geom_line() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + facet_wrap(~year(date)) + scale_x_date(date_breaks = "1 month", date_labels = "%b %d")
+#is cta most used on weekends or weekdays? use bar chart
+ggplot(cta_holiday_weather, aes(x = day_of_week, y = total_rides)) + geom_bar(stat = "identity") + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+#add color to the graph
+ggplot(cta_holiday_weather, aes(x = day_of_week, y = total_rides, fill = year)) + geom_bar(stat = "identity") + theme(axis.text.x = element_text(angle = 90, hjust = 1))
